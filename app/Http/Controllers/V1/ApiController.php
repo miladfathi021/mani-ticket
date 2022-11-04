@@ -4,6 +4,8 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ApiController extends Controller
 {
@@ -29,7 +31,7 @@ class ApiController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function response(array $data = [], string $message = '') : \Illuminate\Http\JsonResponse
+    public function response(array|ResourceCollection|JsonResource $data = [], string $message = '') : \Illuminate\Http\JsonResponse
     {
         return response()->json([
             'message' => $message,
