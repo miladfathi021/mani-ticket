@@ -15,19 +15,12 @@ class CreateHallsTable extends Migration
     {
         Schema::create('halls', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
-
             $table->string('name');
-
-            $table->foreignId('parent_id')
-                ->nullable()
-                ->constrained('halls')
+            $table->foreignId('complex_id')
+                ->constrained('complexes')
                 ->cascadeOnDelete();
 
-            $table->string('description')->nullable();
-            $table->string('address')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
