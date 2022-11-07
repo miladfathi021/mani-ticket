@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\V1\ApiController;
 use App\Http\Requests\Admin\HallRequest;
+use App\Http\Resources\HallCollection;
 use App\Http\Resources\HallResource;
 use App\Models\Admin\Hall;
 use App\Services\HallService;
@@ -12,8 +13,13 @@ use Illuminate\Http\Request;
 
 class HallController extends ApiController
 {
-    protected $hallService;
+    protected HallService $hallService;
 
+    /**
+     * HallController constructor.
+     *
+     * @param \App\Services\HallService $hallService
+     */
     public function __construct(HallService $hallService)
     {
         $this->hallService = $hallService;
@@ -29,5 +35,31 @@ class HallController extends ApiController
         $this->hallService->create($request->all());
 
         return $this->response(message: 'Hall created successfully!');
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index() : \Illuminate\Http\JsonResponse
+    {
+        $halls = $this->hallService->getAll();
+
+        return $this->response(
+            new HallCollection($halls)
+        );
+    }
+
+    /**
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($id) : \Illuminate\Http\JsonResponse
+    {
+        $halls = $this->hallService->getById($id);
+
+        return $this->response(
+            new HallResource($halls)
+        );
     }
 }

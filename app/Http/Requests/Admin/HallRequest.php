@@ -26,11 +26,7 @@ class HallRequest extends FormRequest
         return [
             'name' => 'bail|required|string|min:3|max:255',
             'description' => 'bail|sometimes|nullable|string|min:3',
-            'address' => 'bail|sometimes|nullable|string|min:6',
-            'floors' => 'bail|present|array',
-            'floors.*' => 'bail|sometimes|array',
-            'floors.*.name' => 'bail|required|string|min:3|max:255',
-            'floors.*.description' => 'bail|sometimes|nullable|string|min:3',
+            'complex_id' => 'bail|required|exists:complexes,id',
         ];
     }
 }

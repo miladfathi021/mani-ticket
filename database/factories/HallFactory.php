@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Complex;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class HallFactory extends Factory
@@ -15,7 +17,7 @@ class HallFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'address' => $this->faker->address(),
+            'complex_id' => Complex::factory()->create(),
             'description' => $this->faker->text(100)
         ];
     }
