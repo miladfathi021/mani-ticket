@@ -7,38 +7,45 @@ use Illuminate\Support\Facades\DB;
 
 class HallService
 {
-    protected $hallRepository;
+    protected HallRepositoryInterface $hallRepository;
 
     public function __construct(HallRepositoryInterface $hallRepository)
     {
         $this->hallRepository = $hallRepository;
     }
 
+    /**
+     * @param $data
+     */
     public function create($data)
     {
         try {
             DB::beginTransaction();
 
-            $hall = $this->hallRepository->create([
-                'name' => $data['name'],
-                'description' => $data['description'],
-                'address' => $data['address'],
-            ]);
-
-            if (count($data)) {
-                foreach ($data['floors'] as $floor) {
-                    $this->hallRepository->create([
-                        'name' => $floor['name'],
-                        'description' => $floor['description'],
-                        'parent_id' => $hall->id,
-                    ]);
-                }
-            }
+            $this->hallRepository->create($data);
 
         } catch (\Exception $e) {
             DB::rollBack();
         }
 
         DB::commit();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAll() : mixed
+    {
+        return $this->hallRepository->getAll();
+    }
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function getById($id) : mixed
+    {
+        return $this->hallRepository->getById($id);
     }
 }
