@@ -23,12 +23,12 @@ services:
         volumes:
             -   ./docker/mysql:/var/lib/mysql
         ports:
-            -   "3306:3306"
+            -   "3309:3306"
         environment:
-            MYSQL_DATABASE: mani-ticket-db
-            MYSQL_USER: mani-ticket-secret
-            MYSQL_PASSWORD: M4niS3cR3t!@#
-            MYSQL_ROOT_PASSWORD: M4niS3cR3t!@#
+            MYSQL_DATABASE: maniticketdb
+            MYSQL_USER: maniticket
+            MYSQL_PASSWORD: M4niS3cR3t!@5
+            MYSQL_ROOT_PASSWORD: M4niS3cR3t!@5
             SERVICE_TAG: dev
             SERVICE_NAME: mysql
         networks:
