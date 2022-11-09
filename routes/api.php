@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => '/v1'], function () {
+Route::group(['prefix' => '/v1/admin'], function () {
+    require('Admin/complex.php');
     require('Admin/hall.php');
+    require('Admin/section.php');
+    require('Admin/event.php');
+});
+
+
+Route::group(['prefix' => '/v1'], function () {
+
 });
