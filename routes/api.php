@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::group(['prefix' => '/v1/admin'], function () {
+Route::middleware('auth:api')->prefix('/v1/admin')->group(function () {
     require('Admin/complex.php');
     require('Admin/hall.php');
     require('Admin/section.php');
@@ -23,5 +22,6 @@ Route::group(['prefix' => '/v1/admin'], function () {
 
 
 Route::group(['prefix' => '/v1'], function () {
-
+    require('Auth/auth.php');
+    require('User/event.php');
 });
