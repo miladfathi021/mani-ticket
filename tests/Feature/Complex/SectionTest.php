@@ -44,4 +44,23 @@ class SectionTest extends TestCase
         $this->assertDatabaseCount('sections', 1);
         $this->assertDatabaseCount('seats', 30);
     }
+
+    /** @test **/
+    public function admin_can_see_all_sections()
+    {
+        $this->withoutExceptionHandling();
+        $this->singIn();
+
+        $sections = Section::factory()->count(3)->create();
+
+        $this->getJson(route('sections.index'))
+            ->assertStatus(200)
+            ->assertJson([
+                "data" => [
+                    [
+                        "name" => $sections[0]['name']
+                    ]
+                ]
+            ])
+    }
 }
