@@ -42,9 +42,12 @@ class EloquentSectionRepository implements SectionRepositoryInterface
             ]);
     }
 
-    public function getAll()
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getAll() : \Illuminate\Database\Eloquent\Collection|array
     {
-        // TODO: Implement getAll() method.
+        return $this->model->with(['hall', 'seats'])->get();
     }
 
     public function getById(Hall $id)

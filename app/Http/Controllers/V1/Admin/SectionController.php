@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\V1\ApiController;
 use App\Http\Requests\Admin\SectionRequest;
+use App\Http\Resources\SectoionCollection;
 use App\Services\SectionService;
 
 class SectionController extends ApiController
@@ -30,5 +31,17 @@ class SectionController extends ApiController
         $this->sectionService->create($request->all());
 
         return $this->response(message: 'Section created successfully!');
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        $sections = $this->sectionService->getAll();
+
+        return $this->response(
+            new SectoionCollection($sections)
+        );
     }
 }

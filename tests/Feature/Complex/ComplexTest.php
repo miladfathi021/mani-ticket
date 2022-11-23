@@ -19,7 +19,6 @@ class ComplexTest extends TestCase
             'name' => 'Milad Hall',
             'address' => 'Tehran Iran',
             'description' => 'This is a description',
-            'halls' => []
         ];
 
         $this->assertDatabaseCount('complexes', 0);
@@ -40,16 +39,6 @@ class ComplexTest extends TestCase
             'name' => 'Milad Complex',
             'address' => 'Tehran Iran',
             'description' => 'This is a description',
-            'halls' => [
-                [
-                    'name' => 'first hall',
-                    'description' => 'This is a description',
-                ],
-                [
-                    'name' => 'second hall',
-                    'description' => 'This is a description',
-                ]
-            ]
         ];
 
         $this->assertDatabaseCount('complexes', 0);
@@ -71,7 +60,6 @@ class ComplexTest extends TestCase
             'name' => null,
             'address' => 'Tehran Iran',
             'description' => 'This is a description',
-            'halls' => []
         ];
 
         $this->assertDatabaseCount('complexes', 0);
@@ -90,7 +78,6 @@ class ComplexTest extends TestCase
             'name' => 22,
             'address' => 'Tehran Iran',
             'description' => 'This is a description',
-            'halls' => []
         ];
 
         $this->assertDatabaseCount('complexes', 0);
@@ -109,7 +96,6 @@ class ComplexTest extends TestCase
             'name' => 'Milad Complex',
             'address' => 'Tehran Iran',
             'description' => [],
-            'halls' => []
         ];
 
         $this->assertDatabaseCount('complexes', 0);
@@ -128,94 +114,6 @@ class ComplexTest extends TestCase
             'name' => 'Milad Complex',
             'address' => [],
             'description' => 'This is a description',
-            'halls' => []
-        ];
-
-        $this->assertDatabaseCount('complexes', 0);
-
-        $this->postJson(route('complexes.store'), $data)
-            ->assertStatus(400);
-
-        $this->assertDatabaseCount('complexes', 0);
-    }
-
-    /** @test **/
-    public function halls_is_required()
-    {
-        $this->singIn();
-        $data = [
-            'name' => 'Milad Complex',
-            'address' => 'Tehran Iran',
-            'description' => 'This is a description',
-        ];
-
-        $this->assertDatabaseCount('complexes', 0);
-
-        $this->postJson(route('complexes.store'), $data)
-            ->assertStatus(400);
-
-        $this->assertDatabaseCount('complexes', 0);
-    }
-
-    /** @test **/
-    public function halls_must_be_array()
-    {
-        $this->singIn();
-        $data = [
-            'name' => 'Milad Complex',
-            'address' => 'Tehran Iran',
-            'description' => 'This is a description',
-            'halls' => 'Hello'
-        ];
-
-        $this->assertDatabaseCount('complexes', 0);
-
-        $this->postJson(route('complexes.store'), $data)
-            ->assertStatus(400);
-
-        $this->assertDatabaseCount('complexes', 0);
-    }
-
-    /** @test **/
-    public function hall_name_is_required()
-    {
-        $this->singIn();
-
-        $data = [
-            'name' => 'Milad Complex',
-            'address' => 'Tehran Iran',
-            'description' => 'This is a description',
-            'halls' => [
-                [
-                    'name' => null,
-                    'description' => 'This is a description',
-                ],
-            ]
-        ];
-
-        $this->assertDatabaseCount('complexes', 0);
-
-        $this->postJson(route('complexes.store'), $data)
-            ->assertStatus(400);
-
-        $this->assertDatabaseCount('complexes', 0);
-    }
-
-    /** @test **/
-    public function hall_name_must_be_string()
-    {
-        $this->singIn();
-
-        $data = [
-            'name' => 'Milad Complex',
-            'address' => 'Tehran Iran',
-            'description' => 'This is a description',
-            'halls' => [
-                [
-                    'name' => 55,
-                    'description' => 'This is a description',
-                ],
-            ]
         ];
 
         $this->assertDatabaseCount('complexes', 0);
@@ -246,6 +144,8 @@ class ComplexTest extends TestCase
                 ]
             ])
             ->assertStatus(200);
+
+        $this->assertDatabaseCount('complexes', 3);
     }
 
     /** @test **/
@@ -263,5 +163,7 @@ class ComplexTest extends TestCase
                 ]
             ])
             ->assertStatus(200);
+
+        $this->assertDatabaseCount('complexes', 1);
     }
 }

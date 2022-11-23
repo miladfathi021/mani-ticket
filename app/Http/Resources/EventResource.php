@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ComplexResource extends JsonResource
+class EventResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +15,14 @@ class ComplexResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
             'name' => $this->name,
-            'address' => $this->address,
             'description' => $this->description,
+            'date_start' => $this->date_start,
+            'time_start' => $this->time_start,
+            'date_end' => $this->date_end,
+            'time_end' => $this->time_end,
+            'complex' => new ComplexResource($this->whenLoaded('complex')),
+            'halls' => new HallCollection($this->whenLoaded('halls')),
         ];
     }
 }

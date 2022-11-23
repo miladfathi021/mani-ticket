@@ -19,4 +19,12 @@ class Section extends Model
     {
         return $this->hasMany(Seat::class, 'section_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function hall() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Hall::class, 'hall_id');
+    }
 }

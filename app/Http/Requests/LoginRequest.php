@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ComplexRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,14 +19,13 @@ class ComplexRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function rules()
     {
         return [
-            'name' => 'bail|required|string|min:3|max:255',
-            'description' => 'bail|sometimes|nullable|string|min:3',
-            'address' => 'bail|sometimes|nullable|string|min:6',
+            'phone' => ['bail', 'required', 'regex:/^(0|0098|\+98)9(0[1-5]|[1 3]\d|2[0-2]|98)\d{7}$/'],
+            'password' => 'bail|required|min:6|max:255'
         ];
     }
 }

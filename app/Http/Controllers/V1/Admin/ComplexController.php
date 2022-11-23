@@ -13,7 +13,7 @@ class ComplexController extends ApiController
     protected ComplexService $complexService;
 
     /**
-     * HallController constructor.
+     * ComplexController constructor.
      *
      * @param \App\Services\ComplexService $complexService
      */
@@ -39,10 +39,10 @@ class ComplexController extends ApiController
      */
     public function index() : \Illuminate\Http\JsonResponse
     {
-        $halls = $this->complexService->getAll();
+        $complexes = $this->complexService->getAll();
 
         return $this->response(
-            new ComplexCollection($halls)
+            new ComplexCollection($complexes)
         );
     }
 
@@ -53,10 +53,10 @@ class ComplexController extends ApiController
      */
     public function show($id) : \Illuminate\Http\JsonResponse
     {
-        $halls = $this->complexService->getById($id);
+        $complex = $this->complexService->getById($id);
 
         return $this->response(
-            new ComplexResource($halls)
+            new ComplexResource($complex)
         );
     }
 }

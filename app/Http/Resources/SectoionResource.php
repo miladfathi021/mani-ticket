@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ComplexResource extends JsonResource
+class SectoionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,8 +17,9 @@ class ComplexResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'address' => $this->address,
             'description' => $this->description,
+            'hall' => new HallResource($this->whenLoaded('hall')),
+            'seats' => new SeatCollection($this->whenLoaded('seats'))
         ];
     }
 }

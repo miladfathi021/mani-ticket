@@ -31,11 +31,11 @@ class EloquentHallRepository implements HallRepositoryInterface
      */
     public function getAll() : \Illuminate\Database\Eloquent\Collection
     {
-        return $this->model->all();
+        return $this->model->with('complex')->get();
     }
 
     public function getById($id)
     {
-        return $this->model->find($id);
+        return $this->model->with('complex')->find($id);
     }
 }

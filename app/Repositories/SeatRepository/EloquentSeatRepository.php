@@ -5,6 +5,7 @@ namespace App\Repositories\SeatRepository;
 use App\Models\Hall;
 use App\Models\Seat;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class EloquentSeatRepository implements SeatRepositoryInterface
 {
@@ -24,12 +25,12 @@ class EloquentSeatRepository implements SeatRepositoryInterface
         try {
             DB::beginTransaction();
 
-            for ($column = 1; $column <= $data->column_count; $column++) {
-                for ($row = 1; $row <= $data->row_count; $row++) {
+            for ($row = 1; $row <= $data->row_count; $row++) {
+                for ($column = 1; $column <= $data->column_count; $column++) {
                     $data->seats()->create([
                         'column' => $column,
                         'row' => $row,
-                        'seat_code' => $data->floor_id . 'F' . $data->id . 'S' . $column . 'C' . $row . 'R' . time()
+                        'seat_code' => $data->hall_id . 'H' . $data->id . 'S' . $column . 'C' . $row . 'R000' . Str::random(12)
                     ]);
                 }
             }

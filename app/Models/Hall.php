@@ -13,6 +13,14 @@ class Hall extends Model
     protected $fillable = ['user_id', 'parent_id', 'name', 'address', 'description'];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function complex() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Complex::class, 'complex_id');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function sections() : \Illuminate\Database\Eloquent\Relations\HasMany
