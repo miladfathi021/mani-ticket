@@ -50,4 +50,12 @@ class SectionService
     {
         $this->seatRepository->create($data);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAll()
+    {
+        return $this->sectionRepository->getAll();
+    }
 }
