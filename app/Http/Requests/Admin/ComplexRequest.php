@@ -27,10 +27,6 @@ class ComplexRequest extends FormRequest
             'name' => 'bail|required|string|min:3|max:255',
             'description' => 'bail|sometimes|nullable|string|min:3',
             'address' => 'bail|sometimes|nullable|string|min:6',
-            'halls' => 'bail|present|array',
-            'halls.*' => 'bail|sometimes|array',
-            'halls.*.name' => 'bail|required|string|min:3|max:255',
-            'halls.*.description' => 'bail|sometimes|nullable|string|min:3',
         ];
     }
 }
