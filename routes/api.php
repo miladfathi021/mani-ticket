@@ -18,6 +18,7 @@ Route::middleware('auth:api')->prefix('/v1/admin')->group(function () {
     require('Admin/hall.php');
     require('Admin/section.php');
     require('Admin/event.php');
+    require('Admin/artist.php');
 });
 
 
