@@ -9,7 +9,7 @@ class Event extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'complex_id', 'date_start', 'time_start', 'date_end', 'time_end'];
+    protected $fillable = ['name', 'description', 'artist_id', 'complex_id', 'date_start', 'time_start', 'date_end', 'time_end'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -43,5 +43,13 @@ class Event extends Model
     public function complex() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Complex::class, 'complex_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function artist() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Artist::class, 'artist_id');
     }
 }

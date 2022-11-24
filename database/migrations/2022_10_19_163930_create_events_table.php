@@ -17,9 +17,15 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+
+            $table->foreignId('artist_id')
+                ->constrained('artists')
+                ->cascadeOnDelete();
+
             $table->foreignId('complex_id')
                 ->constrained('complexes')
                 ->cascadeOnDelete();
+
             $table->date('date_start');
             $table->time('time_start');
             $table->date('date_end');

@@ -27,6 +27,7 @@ class EventRequest extends FormRequest
             'name' => 'bail|string|required',
             'description' => 'bail|string|nullable',
             'complex_id' => 'bail|required|exists:complexes,id',
+            'artist_id' => 'bail|required|exists:artists,id',
             'date_start' => 'bail|required|date',
             'time_start' => 'bail|required|date_format:H:i',
             'date_end' => 'bail|required|date|after_or_equal:date_start',

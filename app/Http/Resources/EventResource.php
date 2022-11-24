@@ -21,6 +21,7 @@ class EventResource extends JsonResource
             'time_start' => $this->time_start,
             'date_end' => $this->date_end,
             'time_end' => $this->time_end,
+            'artist' => new ArtistResource($this->whenLoaded('artist')),
             'complex' => new ComplexResource($this->whenLoaded('complex')),
             'halls' => new HallCollection($this->whenLoaded('halls')),
         ];

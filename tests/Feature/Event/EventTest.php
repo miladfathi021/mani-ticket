@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Event;
 
+use App\Models\Artist;
 use App\Models\Complex;
 use App\Models\Event;
 use App\Models\Hall;
@@ -46,10 +47,15 @@ class EventTest extends TestCase
             'section_id' => $third_section->id
         ]);
 
+        $artist = Artist::factory()->create([
+            'name' => 'shakira'
+        ]);
+
         $data = [
-            'name' => 'Shakira',
+            'name' => "Shakira's new concert",
             'description' => 'This is a description',
             'complex_id' => $complex->id,
+            'artist_id' => $artist->id,
             'date_start' => '2022-01-01',
             'time_start' => '10:00',
             'date_end' => '2022-01-10',

@@ -41,6 +41,7 @@ class EloquentEventRepository implements EventRepositoryInterface
             ->events()
             ->create([
                 "name" => $data['name'],
+                "artist_id" => $data['artist_id'],
                 "description" => $data['description'],
                 "date_start" => $data['date_start'],
                 "time_start" => $data['time_start'],
@@ -100,7 +101,7 @@ class EloquentEventRepository implements EventRepositoryInterface
      */
     public function getAll() : Collection|array
     {
-        return $this->model->with(['complex', 'halls'])->get();
+        return $this->model->with(['complex', 'halls', 'artist'])->get();
     }
 
     /**
@@ -110,6 +111,6 @@ class EloquentEventRepository implements EventRepositoryInterface
      */
     public function getById($id) : Model|Collection|Builder|array|null
     {
-        return $this->model->with(['complex', 'halls'])->find($id);
+        return $this->model->with(['complex', 'halls', 'artist'])->find($id);
     }
 }
