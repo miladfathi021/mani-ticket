@@ -10,5 +10,9 @@ interface ComplexRepositoryInterface
 
     public function getAll();
 
-    public function getById(Hall $id);
+    public function getById($id);
+
+    public function update($data, $id);
+
+    public function delete($id);
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\V1\ApiController;
 use App\Http\Requests\Admin\ComplexRequest;
+use App\Http\Requests\Admin\ComplexUpdateRequest;
 use App\Http\Resources\ComplexCollection;
 use App\Http\Resources\ComplexResource;
 use App\Services\ComplexService;
@@ -58,5 +59,30 @@ class ComplexController extends ApiController
         return $this->response(
             new ComplexResource($complex)
         );
+    }
+
+    /**
+     * @param \App\Http\Requests\Admin\ComplexUpdateRequest $request
+     * @param                                               $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(ComplexUpdateRequest $request, $id) : \Illuminate\Http\JsonResponse
+    {
+        $this->complexService->update($request->all(), $id);
+
+        return $this->response(message: 'Complex updated successfully!');
+    }
+
+    /**
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id) : \Illuminate\Http\JsonResponse
+    {
+        $this->complexService->delete($id);
+
+        return $this->response(message: 'Complex deleted successfully!');
     }
 }

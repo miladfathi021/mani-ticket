@@ -46,7 +46,7 @@ class ComplexTest extends TestCase
         $this->postJson(route('complexes.store'), $data)
             ->assertStatus(200);
 
-        $this->assertDatabaseCount('complexes', 3);
+        $this->assertDatabaseCount('complexes', 1);
         $this->assertDatabaseHas('complexes', [
             'name' => 'Milad Complex'
         ]);
@@ -165,5 +165,48 @@ class ComplexTest extends TestCase
             ->assertStatus(200);
 
         $this->assertDatabaseCount('complexes', 1);
+    }
+
+    /** @test **/
+    public function admin_can_update_a_complex()
+    {
+        $this->withoutExceptionHandling();
+        $this->singIn();
+
+        $complex = Complex::factory()->create();
+
+        $data = [
+            'name' => 'milad tower',
+            'address' => 'tehran',
+            'description' => 'milad tower is great'
+        ];
+
+        $this->assertDatabaseCount('complexes', 1);
+
+        $this->patchJson(route('complexes.update', $complex->id), $data)
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('complexes', $data);
+        $this->assertDatabaseMissing('complexes', [
+            'name' => $complex->name
+        ]);
+        $this->assertDatabaseCount('complexes', 1);
+    }
+
+    /** @test **/
+    public function admin_can_delete_a_complex()
+    {
+        $this->withoutExceptionHandling();
+        $this->singIn();
+
+        $complex = Complex::factory()->create();
+
+        $this->assertDatabaseCount('complexes', 1);
+
+        $this->deleteJson(route('complexes.destroy', $complex->id))
+            ->assertStatus(200);
+
+        $this->assertDatabaseCount('complexes', 1);
+        $this->assertSoftDeleted('complexes', $complex->toArray());
     }
 }
