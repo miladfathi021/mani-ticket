@@ -3,6 +3,7 @@
 namespace App\Repositories\ComplexRepository;
 
 use App\Models\Complex;
+use App\Models\Hall;
 
 class EloquentComplexRepository implements ComplexRepositoryInterface
 {
@@ -31,8 +32,38 @@ class EloquentComplexRepository implements ComplexRepositoryInterface
         return $this->model->all();
     }
 
-    public function getById($id)
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function getById($id) : mixed
     {
         return $this->model->find($id);
+    }
+
+    /**
+     * @param $data
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function update($data, $id) : mixed
+    {
+        $complex = $this->getById($id);
+
+        return $complex->update($data);
+    }
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function delete($id) : mixed
+    {
+        $complex = $this->getById($id);
+
+        return $complex->delete();
     }
 }
