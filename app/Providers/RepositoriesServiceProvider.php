@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\ArtistRepository\ArtistRepositoryInterface;
+use App\Repositories\ArtistRepository\EloquentArtistRepository;
 use App\Repositories\ComplexRepository\ComplexRepositoryInterface;
 use App\Repositories\ComplexRepository\EloquentComplexRepository;
 use App\Repositories\EventRepository\EloquentEventRepository;
@@ -38,5 +40,6 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(SectionRepositoryInterface::class, EloquentSectionRepository::class);
         $this->app->bind(SeatRepositoryInterface::class, EloquentSeatRepository::class);
         $this->app->bind(EventRepositoryInterface::class, EloquentEventRepository::class);
+        $this->app->bind(ArtistRepositoryInterface::class, EloquentArtistRepository::class);
     }
 }
