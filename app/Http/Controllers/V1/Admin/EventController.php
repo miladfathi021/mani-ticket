@@ -18,19 +18,6 @@ class EventController extends ApiController
     }
 
     /**
-     * @param \App\Http\Requests\EventRequest $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \App\Exceptions\DatabaseQueryException
-     */
-    public function store(EventRequest $request) : \Illuminate\Http\JsonResponse
-    {
-        $this->eventService->create($request->all());
-
-        return $this->response(message: 'Event created successfully!');
-    }
-
-    /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function index() : \Illuminate\Http\JsonResponse
@@ -54,5 +41,18 @@ class EventController extends ApiController
         return $this->response(
             new EventResource($event)
         );
+    }
+
+    /**
+     * @param \App\Http\Requests\EventRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\DatabaseQueryException
+     */
+    public function store(EventRequest $request) : \Illuminate\Http\JsonResponse
+    {
+        $this->eventService->create($request->all());
+
+        return $this->response(message: 'Event created successfully!');
     }
 }

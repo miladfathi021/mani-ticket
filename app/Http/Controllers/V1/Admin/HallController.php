@@ -26,18 +26,6 @@ class HallController extends ApiController
     }
 
     /**
-     * @param \App\Http\Requests\Admin\HallRequest $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function store(HallRequest $request) : \Illuminate\Http\JsonResponse
-    {
-        $this->hallService->create($request->all());
-
-        return $this->response(message: 'Hall created successfully!');
-    }
-
-    /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function index() : \Illuminate\Http\JsonResponse
@@ -61,5 +49,17 @@ class HallController extends ApiController
         return $this->response(
             new HallResource($halls)
         );
+    }
+
+    /**
+     * @param \App\Http\Requests\Admin\HallRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(HallRequest $request) : \Illuminate\Http\JsonResponse
+    {
+        $this->hallService->create($request->all());
+
+        return $this->response(message: 'Hall created successfully!');
     }
 }

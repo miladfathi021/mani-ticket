@@ -22,6 +22,18 @@ class SectionController extends ApiController
     }
 
     /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index() : \Illuminate\Http\JsonResponse
+    {
+        $sections = $this->sectionService->getAll();
+
+        return $this->response(
+            new SectoionCollection($sections)
+        );
+    }
+
+    /**
      * @param \App\Http\Requests\Admin\SectionRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
@@ -31,17 +43,5 @@ class SectionController extends ApiController
         $this->sectionService->create($request->all());
 
         return $this->response(message: 'Section created successfully!');
-    }
-
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function index()
-    {
-        $sections = $this->sectionService->getAll();
-
-        return $this->response(
-            new SectoionCollection($sections)
-        );
     }
 }

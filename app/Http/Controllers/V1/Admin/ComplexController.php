@@ -24,18 +24,6 @@ class ComplexController extends ApiController
     }
 
     /**
-     * @param \App\Http\Requests\Admin\ComplexRequest $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function store(ComplexRequest $request) : \Illuminate\Http\JsonResponse
-    {
-        $this->complexService->create($request->all());
-
-        return $this->response(message: 'Complex created successfully!');
-    }
-
-    /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function index() : \Illuminate\Http\JsonResponse
@@ -59,6 +47,18 @@ class ComplexController extends ApiController
         return $this->response(
             new ComplexResource($complex)
         );
+    }
+
+    /**
+     * @param \App\Http\Requests\Admin\ComplexRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(ComplexRequest $request) : \Illuminate\Http\JsonResponse
+    {
+        $this->complexService->create($request->all());
+
+        return $this->response(message: 'Complex created successfully!');
     }
 
     /**
