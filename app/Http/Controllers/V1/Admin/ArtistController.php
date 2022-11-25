@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\V1\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\V1\ApiController;
-use App\Http\Requests\ArtistRequest;
+use App\Http\Requests\Admin\ArtistRequest;
 use App\Http\Resources\ArtistCollection;
 use App\Http\Resources\ArtistResource;
 use App\Services\ArtistService;
-use Illuminate\Http\Request;
 
 class ArtistController extends ApiController
 {
@@ -46,7 +44,7 @@ class ArtistController extends ApiController
     }
 
     /**
-     * @param \App\Http\Requests\ArtistRequest $request
+     * @param \App\Http\Requests\Admin\ArtistRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
