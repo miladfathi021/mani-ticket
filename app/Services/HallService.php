@@ -48,4 +48,25 @@ class HallService
     {
         return $this->hallRepository->getById($id);
     }
+
+    /**
+     * @param $data
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function update($data, $id) : mixed
+    {
+        return $this->hallRepository->update($data, $id);
+    }
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function delete($id) : mixed
+    {
+        return $this->hallRepository->delete($id);
+    }
 }

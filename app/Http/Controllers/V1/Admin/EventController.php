@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\V1\ApiController;
-use App\Http\Requests\EventRequest;
+use App\Http\Requests\Admin\EventRequest;
 use App\Http\Resources\EventCollection;
 use App\Http\Resources\EventResource;
 use App\Services\EventService;
@@ -44,7 +44,7 @@ class EventController extends ApiController
     }
 
     /**
-     * @param \App\Http\Requests\EventRequest $request
+     * @param \App\Http\Requests\Admin\EventRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \App\Exceptions\DatabaseQueryException

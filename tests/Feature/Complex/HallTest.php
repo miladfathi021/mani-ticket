@@ -165,4 +165,43 @@ class HallTest extends TestCase
             ])
             ->assertStatus(200);
     }
+
+    /** @test **/
+    public function admin_can_update_a_hall()
+    {
+        $this->withoutExceptionHandling();
+        $this->singIn();
+
+        $hall = Hall::factory()->create();
+        $complex = Complex::factory()->create();
+
+        $data = [
+            'name' => 'milad',
+            'description' => 'new description',
+            'complex_id' => $complex->id
+        ];
+
+        $this->patchJson(route('halls.update', $hall->id), $data)
+            ->assertStatus(200);
+
+        $this->assertDatabaseHas('halls', $data);
+        $this->assertDatabaseMissing('halls', $hall->toArray());
+    }
+
+    /** @test **/
+    public function admin_can_delete_a_hall()
+    {
+        $this->withoutExceptionHandling();
+        $this->singIn();
+
+        $hall = Hall::factory()->create();
+
+        $this->assertDatabaseCount('halls', 1);
+
+        $this->deleteJson(route('halls.destroy', $hall->id))
+            ->assertStatus(200);
+
+        $this->assertDatabaseCount('halls', 1);
+        $this->assertSoftDeleted('halls', $hall->toArray());
+    }
 }

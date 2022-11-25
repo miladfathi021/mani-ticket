@@ -10,7 +10,7 @@ class Hall extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['user_id', 'parent_id', 'name', 'address', 'description'];
+    protected $fillable = ['name', 'description', 'complex_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

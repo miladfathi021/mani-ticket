@@ -34,8 +34,38 @@ class EloquentHallRepository implements HallRepositoryInterface
         return $this->model->with('complex')->get();
     }
 
-    public function getById($id)
+    /**
+     * @param $id
+     *
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
+     */
+    public function getById($id) : \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
     {
         return $this->model->with('complex')->find($id);
+    }
+
+    /**
+     * @param $data
+     * @param $id
+     *
+     * @return bool|int
+     */
+    public function update($data, $id) : bool|int
+    {
+        $hall = $this->getById($id);
+
+        return $hall->update($data);
+    }
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function delete($id) : mixed
+    {
+        $hall = $this->getById($id);
+
+        return $hall->delete();
     }
 }
