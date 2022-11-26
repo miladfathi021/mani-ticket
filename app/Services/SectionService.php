@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Exceptions\DatabaseQueryException;
 use App\Repositories\SeatRepository\SeatRepositoryInterface;
 use App\Repositories\SectionRepository\SectionRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SectionService
 {
@@ -25,6 +27,8 @@ class SectionService
 
     /**
      * @param $data
+     *
+     * @throws \App\Exceptions\DatabaseQueryException
      */
     public function create($data)
     {
@@ -38,6 +42,8 @@ class SectionService
 
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::debug($e->getMessage());
+            throw new DatabaseQueryException();
         }
 
         DB::commit();
@@ -67,5 +73,26 @@ class SectionService
     public function getById($id) : mixed
     {
         return $this->sectionRepository->getById($id);
+    }
+
+    /**
+     * @throws \App\Exceptions\DatabaseQueryException
+     */
+    public function update($data, $id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $this->sectionRepository->update($data, $id);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::debug($e->getMessage());
+            throw new DatabaseQueryException();
+        }
+
+        DB::commit();
+
+        return $this->sectionRepository->update($data, $id);
     }
 }
