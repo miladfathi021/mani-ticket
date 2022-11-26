@@ -61,6 +61,63 @@ class SectionTest extends TestCase
                         "name" => $sections[0]['name']
                     ]
                 ]
-            ])
+            ]);
+    }
+
+    /** @test **/
+    public function admin_can_see_a_section()
+    {
+        $this->withoutExceptionHandling();
+        $this->singIn();
+
+        $section = Section::factory()->create();
+
+        $this->getJson(route('sections.show', $section->id))
+            ->assertStatus(200)
+            ->assertJson([
+                "data" => [
+                    "name" => $section->name
+                ]
+            ]);
+    }
+
+    /** @test **/
+    public function admin_can_update_a_section()
+    {
+        $this->withoutExceptionHandling();
+        $this->singIn();
+
+        $section = Section::factory()->create();
+
+        $data = [
+            'name' => 'section Vip',
+            'description' => 'This is a description',
+        ];
+
+        $this->assertDatabaseCount('sections', 1);
+
+        $this->patchJson(route('sections.update', $section->id), $data)
+            ->assertStatus(200);
+
+        $this->assertDatabaseCount('sections', 1);
+        $this->assertDatabaseHas('sections', $data);
+        $this->assertDatabaseMissing('sections', $section->toArray());
+    }
+
+    /** @test **/
+    public function admin_can_delete_a_section()
+    {
+        $this->withoutExceptionHandling();
+        $this->singIn();
+
+        $section = Section::factory()->create();
+
+        $this->assertDatabaseCount('sections', 1);
+
+        $this->deleteJson(route('sections.destroy', $section->id))
+            ->assertStatus(200);
+
+        $this->assertDatabaseCount('sections', 1);
+        $this->assertSoftDeleted('sections', $section->toArray());
     }
 }

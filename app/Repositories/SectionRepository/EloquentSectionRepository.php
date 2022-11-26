@@ -50,8 +50,38 @@ class EloquentSectionRepository implements SectionRepositoryInterface
         return $this->model->with(['hall', 'seats'])->get();
     }
 
-    public function getById(Hall $id)
+    /**
+     * @param \App\Models\Hall $id
+     *
+     * @return array|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     */
+    public function getById($id) : array|null|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
     {
-        // TODO: Implement getById() method.
+        return $this->model->with(['hall', 'seats'])->find($id);
+    }
+
+    /**
+     * @param $data
+     * @param $id
+     *
+     * @return bool|int
+     */
+    public function update($data, $id) : bool|int
+    {
+        $section = $this->getById($id);
+
+        return $section->update($data);
+    }
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function delete($id) : mixed
+    {
+        $section = $this->getById($id);
+
+        return $section->delete();
     }
 }

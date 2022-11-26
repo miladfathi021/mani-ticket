@@ -4,7 +4,9 @@ namespace App\Http\Controllers\V1\Admin;
 
 use App\Http\Controllers\V1\ApiController;
 use App\Http\Requests\Admin\SectionRequest;
+use App\Http\Requests\Admin\SectionUpdateRequest;
 use App\Http\Resources\SectoionCollection;
+use App\Http\Resources\SectoionResource;
 use App\Services\SectionService;
 
 class SectionController extends ApiController
@@ -34,14 +36,55 @@ class SectionController extends ApiController
     }
 
     /**
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($id) : \Illuminate\Http\JsonResponse
+    {
+        $section = $this->sectionService->getById($id);
+
+        return $this->response(
+            new SectoionResource($section)
+        );
+    }
+
+    /**
      * @param \App\Http\Requests\Admin\SectionRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\DatabaseQueryException
      */
     public function store(SectionRequest $request) : \Illuminate\Http\JsonResponse
     {
         $this->sectionService->create($request->all());
 
         return $this->response(message: 'Section created successfully!');
+    }
+
+    /**
+     * @param \App\Http\Requests\Admin\SectionUpdateRequest $request
+     * @param                                               $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\DatabaseQueryException
+     */
+    public function update(SectionUpdateRequest $request, $id) : \Illuminate\Http\JsonResponse
+    {
+        $this->sectionService->update($request->only(['name', 'description']), $id);
+
+        return $this->response(message: 'Section updated successfully!');
+    }
+
+    /**
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id) : \Illuminate\Http\JsonResponse
+    {
+        $this->sectionService->delete($id);
+
+        return $this->response(message: 'Section deleted successfully!');
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Seat;
 use App\Models\Section;
 use App\Repositories\ComplexRepository\ComplexRepositoryInterface;
 use App\Repositories\HallRepository\HallRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
@@ -112,5 +113,13 @@ class EloquentEventRepository implements EventRepositoryInterface
     public function getById($id) : Model|Collection|Builder|array|null
     {
         return $this->model->with(['complex', 'halls', 'artist'])->find($id);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEventsFromToday() : mixed
+    {
+        return $this->model->where('date_start', Carbon::today()->toDateString())->get();
     }
 }

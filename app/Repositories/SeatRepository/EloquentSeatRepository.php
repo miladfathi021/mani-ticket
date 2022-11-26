@@ -19,6 +19,7 @@ class EloquentSeatRepository implements SeatRepositoryInterface
      * @param $data
      *
      * @return bool
+     * @throws \Exception
      */
     public function create($data) : bool
     {
@@ -37,6 +38,7 @@ class EloquentSeatRepository implements SeatRepositoryInterface
 
         } catch (\Exception $e) {
             DB::rollBack();
+            throw new \Exception();
         }
 
         DB::commit();
