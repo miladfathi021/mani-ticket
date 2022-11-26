@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1\Admin;
 use App\Http\Controllers\V1\ApiController;
 use App\Http\Requests\Admin\SectionRequest;
 use App\Http\Resources\SectoionCollection;
+use App\Http\Resources\SectoionResource;
 use App\Services\SectionService;
 
 class SectionController extends ApiController
@@ -30,6 +31,20 @@ class SectionController extends ApiController
 
         return $this->response(
             new SectoionCollection($sections)
+        );
+    }
+
+    /**
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($id) : \Illuminate\Http\JsonResponse
+    {
+        $section = $this->sectionService->getById($id);
+
+        return $this->response(
+            new SectoionResource($section)
         );
     }
 
