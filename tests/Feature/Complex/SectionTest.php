@@ -80,4 +80,27 @@ class SectionTest extends TestCase
                 ]
             ]);
     }
+
+    /** @test **/
+    public function admin_can_update_a_section()
+    {
+        $this->withoutExceptionHandling();
+        $this->singIn();
+
+        $section = Section::factory()->create();
+
+        $data = [
+            'name' => 'section Vip',
+            'description' => 'This is a description',
+        ];
+
+        $this->assertDatabaseCount('sections', 1);
+
+        $this->patchJson(route('sections.update', $section->id), $data)
+            ->assertStatus(200);
+
+        $this->assertDatabaseCount('sections', 1);
+        $this->assertDatabaseHas('sections', $data);
+        $this->assertDatabaseMissing('sections', $section->toArray());
+    }
 }
