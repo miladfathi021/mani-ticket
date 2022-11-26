@@ -103,4 +103,21 @@ class SectionTest extends TestCase
         $this->assertDatabaseHas('sections', $data);
         $this->assertDatabaseMissing('sections', $section->toArray());
     }
+
+    /** @test **/
+    public function admin_can_delete_a_section()
+    {
+        $this->withoutExceptionHandling();
+        $this->singIn();
+
+        $section = Section::factory()->create();
+
+        $this->assertDatabaseCount('sections', 1);
+
+        $this->deleteJson(route('sections.destroy', $section->id))
+            ->assertStatus(200);
+
+        $this->assertDatabaseCount('sections', 1);
+        $this->assertSoftDeleted('sections', $section->toArray());
+    }
 }
