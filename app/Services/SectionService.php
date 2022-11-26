@@ -95,4 +95,14 @@ class SectionService
 
         return $this->sectionRepository->update($data, $id);
     }
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function delete($id) : mixed
+    {
+        return $this->sectionRepository->delete($id);
+    }
 }
