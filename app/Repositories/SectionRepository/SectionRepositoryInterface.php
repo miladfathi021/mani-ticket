@@ -10,5 +10,5 @@ interface SectionRepositoryInterface
 
     public function getAll();
 
-    public function getById(Hall $id);
+    public function getById($id);
 }
