@@ -54,8 +54,18 @@ class SectionService
     /**
      * @return mixed
      */
-    public function getAll()
+    public function getAll() : mixed
     {
         return $this->sectionRepository->getAll();
+    }
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function getById($id) : mixed
+    {
+        return $this->sectionRepository->getById($id);
     }
 }
