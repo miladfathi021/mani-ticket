@@ -61,6 +61,23 @@ class SectionTest extends TestCase
                         "name" => $sections[0]['name']
                     ]
                 ]
-            ])
+            ]);
+    }
+
+    /** @test **/
+    public function admin_can_see_a_section()
+    {
+        $this->withoutExceptionHandling();
+        $this->singIn();
+
+        $section = Section::factory()->create();
+
+        $this->getJson(route('sections.show', $section->id))
+            ->assertStatus(200)
+            ->assertJson([
+                "data" => [
+                    "name" => $section->name
+                ]
+            ]);
     }
 }
