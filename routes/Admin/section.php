@@ -6,3 +6,5 @@ Route::post('/sections', [SectionController::class, 'store'])
     ->name('sections.store');
 Route::get('/sections', [SectionController::class, 'index'])
     ->name('sections.index');
+Route::get('/sections/{section}', [SectionController::class, 'show'])
+    ->name('sections.show');
