@@ -10,3 +10,5 @@ Route::get('/sections/{section}', [SectionController::class, 'show'])
     ->name('sections.show');
 Route::patch('/sections/{section}', [SectionController::class, 'update'])
     ->name('sections.update');
+Route::delete('/sections/{section}', [SectionController::class, 'destroy'])
+    ->name('sections.destroy');
