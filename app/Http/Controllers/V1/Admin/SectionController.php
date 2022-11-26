@@ -75,4 +75,16 @@ class SectionController extends ApiController
 
         return $this->response(message: 'Section updated successfully!');
     }
+
+    /**
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id) : \Illuminate\Http\JsonResponse
+    {
+        $this->sectionService->delete($id);
+
+        return $this->response(message: 'Section deleted successfully!');
+    }
 }
