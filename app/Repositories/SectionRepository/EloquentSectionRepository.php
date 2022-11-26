@@ -72,4 +72,16 @@ class EloquentSectionRepository implements SectionRepositoryInterface
 
         return $section->update($data);
     }
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function delete($id) : mixed
+    {
+        $section = $this->getById($id);
+
+        return $section->delete();
+    }
 }
