@@ -59,4 +59,17 @@ class EloquentSectionRepository implements SectionRepositoryInterface
     {
         return $this->model->with(['hall', 'seats'])->find($id);
     }
+
+    /**
+     * @param $data
+     * @param $id
+     *
+     * @return bool|int
+     */
+    public function update($data, $id) : bool|int
+    {
+        $section = $this->getById($id);
+
+        return $section->update($data);
+    }
 }
