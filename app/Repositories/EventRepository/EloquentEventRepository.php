@@ -6,23 +6,21 @@ use App\Models\Event;
 use App\Models\Seat;
 use App\Models\Section;
 use App\Repositories\ComplexRepository\ComplexRepositoryInterface;
-use App\Repositories\HallRepository\HallRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\DB;
 
 class EloquentEventRepository implements EventRepositoryInterface
 {
     protected Event $model;
-    private $seats;
     protected ComplexRepositoryInterface $complexRepository;
 
     /**
      * EloquentSectionRepository constructor.
      *
      * @param \App\Models\Event $event
+     * @param \App\Repositories\ComplexRepository\ComplexRepositoryInterface $complexRepository
      */
     public function __construct(Event $event, ComplexRepositoryInterface $complexRepository)
     {

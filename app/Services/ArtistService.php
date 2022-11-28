@@ -7,10 +7,12 @@ use App\Repositories\ArtistRepository\ArtistRepositoryInterface;
 class ArtistService
 {
     protected ArtistRepositoryInterface $artistRepository;
+    protected MediaService $mediaService;
 
-    public function __construct(ArtistRepositoryInterface $artistRepository)
+    public function __construct(ArtistRepositoryInterface $artistRepository, MediaService $mediaService)
     {
         $this->artistRepository = $artistRepository;
+        $this->mediaService = $mediaService;
     }
 
     /**
@@ -20,6 +22,9 @@ class ArtistService
      */
     public function create($data) : mixed
     {
+        if (array_key_exists('image', $data)) {
+            $data['path'] = $this->mediaService->upload($data['image']);
+        }
         return $this->artistRepository->create($data);
     }
 
