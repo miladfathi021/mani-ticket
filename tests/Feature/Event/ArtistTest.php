@@ -5,6 +5,8 @@ namespace Tests\Feature\Event;
 use App\Models\Artist;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ArtistTest extends TestCase
@@ -17,17 +19,26 @@ class ArtistTest extends TestCase
         $this->withoutExceptionHandling();
         $this->singIn();
 
+        Storage::fake('public');
+        $file = UploadedFile::fake()->create('image.jpg');
+
         $data = [
-            'name' => 'shakira'
+            'name' => 'shakira',
+            'image' => $file
         ];
 
         $this->assertDatabaseCount('artists', 0);
+        $this->assertDatabaseCount('media', 0);
 
         $this->postJson(route('artists.store'), $data)
             ->assertStatus(200);
 
+        $this->assertDatabaseCount('media', 1);
         $this->assertDatabaseCount('artists', 1);
-        $this->assertDatabaseHas('artists', $data);
+
+        $this->assertDatabaseHas('artists', [
+            'name' => $data['name']
+        ]);
     }
 
     /** @test **/

@@ -24,7 +24,8 @@ class ArtistRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'bail|required|string|min:2|max:255'
+            'name' => 'bail|required|string|min:2|max:255',
+            'image' => 'bail|nullable|file|mimes:jpeg,png,gif'
         ];
     }
 }

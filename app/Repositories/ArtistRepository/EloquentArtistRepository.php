@@ -20,7 +20,19 @@ class EloquentArtistRepository implements ArtistRepositoryInterface
      */
     public function create($data) : mixed
     {
-        return $this->model->create($data);
+        $artist =  $this->model->create([
+            'name' => $data['name']
+        ]);
+
+        $this->addImage($artist, $data);
+        return $artist;
+    }
+
+    public function addImage($artist, $data)
+    {
+        $artist->image()->create([
+            'path' => $data['path']
+        ]);
     }
 
     /**
@@ -28,7 +40,7 @@ class EloquentArtistRepository implements ArtistRepositoryInterface
      */
     public function getAll() : \Illuminate\Database\Eloquent\Collection
     {
-        return $this->model->all();
+        return $this->model->with('image')->get();
     }
 
     /**
@@ -38,7 +50,7 @@ class EloquentArtistRepository implements ArtistRepositoryInterface
      */
     public function getById($id) : mixed
     {
-        return $this->model->find($id);
+        return $this->model->with('image')->find($id);
     }
 
     public function update($data, $id)

@@ -18,4 +18,12 @@ class Artist extends Model
     {
         return $this->hasMany(Event::class, 'artist_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     */
+    public function image() : \Illuminate\Database\Eloquent\Relations\MorphOne
+    {
+        return $this->morphOne(Media::class, 'mediable');
+    }
 }
