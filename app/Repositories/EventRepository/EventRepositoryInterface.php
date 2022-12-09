@@ -12,7 +12,13 @@ interface EventRepositoryInterface
 
     public function create_event_seat(Event $event, array $data);
 
-    public function getAll();
+    public function get_all();
 
-    public function getById($id);
+    public function get_by_id($id);
+
+    public function get_todays_events();
+
+    public function get_event_seats($hallId);
+
+    public function get_all_active_events();
 }

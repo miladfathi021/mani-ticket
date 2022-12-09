@@ -17,7 +17,7 @@ class ArtistResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'image' => $this->whenLoaded('image')->path
+            'image' => $this->image_path ? $this->image_path->path : ''
         ];
     }
 }

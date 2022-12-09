@@ -26,4 +26,12 @@ class Artist extends Model
     {
         return $this->morphOne(Media::class, 'mediable');
     }
+
+    /**
+     * @return mixed
+     */
+    public function getImagePathAttribute()
+    {
+        return $this->image;
+    }
 }

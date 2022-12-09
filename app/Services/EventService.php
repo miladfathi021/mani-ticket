@@ -76,13 +76,18 @@ class EventService
     /**
      * @return mixed
      */
-    public function getAll() : mixed
+    public function get_all() : mixed
     {
-        return $this->eventRepository->getAll();
+        return $this->eventRepository->get_all();
     }
 
-    public function getById($id)
+    public function get_by_id($id)
     {
-        return $this->eventRepository->getById($id);
+        return $this->eventRepository->get_by_id($id);
+    }
+
+    public function get_all_active_events()
+    {
+        return $this->eventRepository->get_all_active_events();
     }
 }

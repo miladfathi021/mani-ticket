@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Artist;
 use App\Models\Complex;
+use App\Models\Media;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +23,7 @@ class EventFactory extends Factory
             'name' => $this->faker->name,
             'description' => $this->faker->text(20),
             'complex_id' => Complex::factory()->create(),
+            'artist_id' => Artist::factory()->hasImage(1)->create(),
             'date_start' => $this->faker->date,
             'time_start' => $this->faker->time('H:i'),
             'date_end' => $this->faker->date,
