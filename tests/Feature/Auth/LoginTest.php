@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -14,6 +15,7 @@ class LoginTest extends TestCase
     public function user_can_login()
     {
         $this->withoutExceptionHandling();
+        Artisan::call('passport:install');
 
         User::factory()->create([
             'phone' => '09215420796',
@@ -26,8 +28,8 @@ class LoginTest extends TestCase
         ];
 
         $this->postJson(route('login'), $data)
-            ->dd();
-//            ->assertStatus(200);
-        $this->assertEquals($data['email'], auth()->user()->email);
+            ->assertStatus(200);
+
+        $this->assertEquals('miladfathi021@gmail.com', auth()->user()->email);
     }
 }
