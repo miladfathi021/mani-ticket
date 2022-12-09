@@ -22,7 +22,7 @@ class EventController extends ApiController
      */
     public function index() : \Illuminate\Http\JsonResponse
     {
-        $events = $this->eventService->getAll();
+        $events = $this->eventService->get_all();
 
         return $this->response(
             new EventCollection($events)
@@ -36,7 +36,7 @@ class EventController extends ApiController
      */
     public function show($id) : \Illuminate\Http\JsonResponse
     {
-        $event = $this->eventService->getById($id);
+        $event = $this->eventService->get_by_id($id);
 
         return $this->response(
             new EventResource($event)

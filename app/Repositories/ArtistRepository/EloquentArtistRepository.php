@@ -30,6 +30,8 @@ class EloquentArtistRepository implements ArtistRepositoryInterface
 
     public function addImage($artist, $data)
     {
+        if (!array_key_exists('image', $data)) return;
+
         $artist->image()->create([
             'path' => $data['path']
         ]);
