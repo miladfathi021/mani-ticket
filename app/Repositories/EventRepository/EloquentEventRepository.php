@@ -111,7 +111,7 @@ class EloquentEventRepository implements EventRepositoryInterface
      */
     public function get_by_id($id) : Model|Collection|Builder|array|null
     {
-        return $this->model->with(['complex', 'halls', 'artist'])->find($id);
+        return $this->model->load(['complex', 'halls', 'artist'])->find($id);
     }
 
     /**
