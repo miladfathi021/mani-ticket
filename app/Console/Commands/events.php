@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Repositories\EventRepository\EventRepositoryInterface;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Redis;
 
 class events extends Command
 {
@@ -27,7 +28,7 @@ class events extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = "Find today's events and add them to redis";
 
     /**
      * Execute the console command.
@@ -36,8 +37,17 @@ class events extends Command
      */
     public function handle()
     {
-        $events = $this->eventRepository->getEventsFromToday();
-        dd($events->toArray());
+        $events = $this->eventRepository->get_todays_events();
+
+        if ($events->count()) {
+            $events->each(function ($item) {
+                $event = $this->eventRepository->get_by_id($item->event_id);
+                $seats = $event->seats()->where('event_hall_id', $item->id)->get();
+
+                Redis::set('events_' . $item->id, $seats);
+            });
+        }
+        
         return Command::SUCCESS;
     }
 }
