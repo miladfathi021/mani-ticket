@@ -89,7 +89,7 @@ class EventTest extends TestCase
         $this->assertDatabaseCount('event_hall', 0);
         $this->assertDatabaseCount('event_seat', 0);
 
-        $this->postJson(route('events.store'), $data)
+        $this->postJson(route('admin.events.store'), $data)
             ->assertStatus(200);
 
         $this->assertDatabaseCount('events', 1);
