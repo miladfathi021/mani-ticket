@@ -10,4 +10,12 @@ class EventHall extends Model
     use HasFactory;
 
     protected $table = 'event_hall';
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function hall() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Hall::class, 'hall_id');
+    }
 }
