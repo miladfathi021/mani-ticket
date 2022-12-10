@@ -34,6 +34,7 @@ class HallResource extends JsonResource
             'time_end' => $this->whenPivotLoaded('event_hall', function() {
                 return $this->pivot->time_end;
             }),
+            'sections' => $this->whenLoaded('sections')
         ];
     }
 }
