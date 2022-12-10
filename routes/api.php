@@ -25,4 +25,5 @@ Route::middleware('auth:api')->prefix('/v1/admin')->group(function () {
 Route::group(['prefix' => '/v1'], function () {
     require('Auth/auth.php');
     require('User/event.php');
+    require('User/hall.php');
 });
