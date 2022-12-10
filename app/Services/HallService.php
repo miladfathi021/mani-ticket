@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\EventHall;
 use App\Repositories\HallRepository\HallRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
@@ -68,5 +69,15 @@ class HallService
     public function delete($id) : mixed
     {
         return $this->hallRepository->delete($id);
+    }
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function get_a_hall_with_sections($id) : mixed
+    {
+        return $this->hallRepository->get_a_hall_with_sections($id);
     }
 }
