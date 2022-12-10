@@ -15,4 +15,6 @@ interface HallRepositoryInterface
     public function update($data, $id);
 
     public function delete($id);
+
+    public function get_a_hall_with_sections($id);
 }

@@ -2,6 +2,7 @@
 
 namespace App\Repositories\HallRepository;
 
+use App\Models\EventHall;
 use App\Models\Hall;
 use App\Repositories\ComplexRepository\ComplexRepositoryInterface;
 
@@ -67,5 +68,17 @@ class EloquentHallRepository implements HallRepositoryInterface
         $hall = $this->getById($id);
 
         return $hall->delete();
+    }
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function get_a_hall_with_sections($id) : mixed
+    {
+        $event_hall = EventHall::find($id);
+
+        return $event_hall->hall()->with('sections')->first();
     }
 }
