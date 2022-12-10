@@ -47,7 +47,7 @@ class events extends Command
                 Redis::set('events_' . $item->id, $seats);
             });
         }
-        
+
         return Command::SUCCESS;
     }
 }

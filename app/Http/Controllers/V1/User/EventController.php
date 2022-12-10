@@ -15,7 +15,10 @@ class EventController extends ApiController
         $this->eventService = $eventService;
     }
 
-    public function index()
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index() : \Illuminate\Http\JsonResponse
     {
         $events = $this->eventService->get_all_active_events();
 

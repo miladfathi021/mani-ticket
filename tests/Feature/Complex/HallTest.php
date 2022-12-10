@@ -24,7 +24,7 @@ class HallTest extends TestCase
 
         $this->assertDatabaseCount('halls', 0);
 
-        $this->postJson(route('halls.store'), $data)
+        $this->postJson(route('admin.halls.store'), $data)
             ->assertStatus(401);
 
         $this->assertDatabaseCount('halls', 0);
@@ -48,7 +48,7 @@ class HallTest extends TestCase
 
         $this->assertDatabaseCount('halls', 0);
 
-        $this->postJson(route('halls.store'), $data)
+        $this->postJson(route('admin.halls.store'), $data)
             ->assertStatus(200);
 
         $this->assertDatabaseCount('halls', 1);
@@ -75,7 +75,7 @@ class HallTest extends TestCase
 
         $this->assertDatabaseCount('halls', 0);
 
-        $this->postJson(route('halls.store'), $data)
+        $this->postJson(route('admin.halls.store'), $data)
             ->assertStatus(400);
 
         $this->assertDatabaseCount('halls', 0);
@@ -98,7 +98,7 @@ class HallTest extends TestCase
 
         $this->assertDatabaseCount('halls', 0);
 
-        $this->postJson(route('halls.store'), $data)
+        $this->postJson(route('admin.halls.store'), $data)
             ->assertStatus(400);
 
         $this->assertDatabaseCount('halls', 0);
@@ -121,7 +121,7 @@ class HallTest extends TestCase
 
         $this->assertDatabaseCount('halls', 0);
 
-        $this->postJson(route('halls.store'), $data)
+        $this->postJson(route('admin.halls.store'), $data)
             ->assertStatus(400);
 
         $this->assertDatabaseCount('halls', 0);
@@ -135,7 +135,7 @@ class HallTest extends TestCase
 
         $halls = Hall::factory()->count(3)->create();
 
-        $this->getJson(route('halls.index'))
+        $this->getJson(route('admin.halls.index'))
             ->assertJson([
                 "data" => [
                     [
@@ -157,7 +157,7 @@ class HallTest extends TestCase
 
         $hall = Hall::factory()->create();
 
-        $this->getJson(route('halls.show', $hall->id))
+        $this->getJson(route('admin.halls.show', $hall->id))
             ->assertJson([
                 "data" => [
                     "name" => $hall['name']
@@ -181,7 +181,7 @@ class HallTest extends TestCase
             'complex_id' => $complex->id
         ];
 
-        $this->patchJson(route('halls.update', $hall->id), $data)
+        $this->patchJson(route('admin.halls.update', $hall->id), $data)
             ->assertStatus(200);
 
         $this->assertDatabaseHas('halls', $data);
@@ -198,7 +198,7 @@ class HallTest extends TestCase
 
         $this->assertDatabaseCount('halls', 1);
 
-        $this->deleteJson(route('halls.destroy', $hall->id))
+        $this->deleteJson(route('admin.halls.destroy', $hall->id))
             ->assertStatus(200);
 
         $this->assertDatabaseCount('halls', 1);
