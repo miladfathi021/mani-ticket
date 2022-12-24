@@ -40,11 +40,13 @@ class events extends Command
         $events = $this->eventRepository->get_todays_events();
 
         if ($events->count()) {
-            $events->each(function ($item) {
-                $event = $this->eventRepository->get_by_id($item->event_id);
-                $seats = $event->seats()->where('event_hall_id', $item->id)->get();
+            $events->each(function ($event) {
+                $event->halls->each(function ($item) {
+                    $event = $this->eventRepository->get_by_id($item->pivot->event_id);
+                    $seats = $event->seats()->where('event_hall_id', $item->id)->get();
 
-                Redis::set('events_' . $item->id, $seats);
+                    Redis::set('events_' . $item->id, $seats);
+                });
             });
         }
 
