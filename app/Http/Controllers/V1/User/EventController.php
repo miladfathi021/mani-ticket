@@ -9,19 +9,14 @@ use App\Services\EventService;
 
 class EventController extends ApiController
 {
-    protected EventService $eventService;
-
-    public function __construct(EventService $eventService)
-    {
-        $this->eventService = $eventService;
-    }
-
     /**
+     * @param \App\Services\EventService $eventService
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index() : \Illuminate\Http\JsonResponse
+    public function index(EventService $eventService) : \Illuminate\Http\JsonResponse
     {
-        $events = $this->eventService->get_all_active_events();
+        $events = $eventService->get_all_active_events();
 
         return $this->response(
             new EventCollection($events)

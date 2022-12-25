@@ -4,17 +4,10 @@ namespace App\Http\Controllers\V1\User;
 
 use App\Http\Controllers\V1\ApiController;
 use App\Http\Resources\HallResource;
-use App\Services\HallService;
+use App\Models\EventHall;
 
 class HallController extends ApiController
 {
-    protected HallService $hallService;
-
-    public function __construct(HallService $hallService)
-    {
-        $this->hallService = $hallService;
-    }
-
     /**
      * @param $id
      *
@@ -22,14 +15,12 @@ class HallController extends ApiController
      */
     public function show($id) : \Illuminate\Http\JsonResponse
     {
-        $hall = $this->hallService->get_a_hall_with_sections($id);
+        $event_hall = EventHall::find($id);
 
-        if($hall->count()) {
-            $hall->event_hall_id = $id;
-        }
+        $hall = $event_hall->hall()->with('sections')->first();
 
         return $this->response(
-            (new HallResource($hall))
+            new HallResource($hall)
         );
     }
 }

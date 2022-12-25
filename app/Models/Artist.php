@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\MediaTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Artist extends Model
 {
-    use HasFactory;
+    use HasFactory, MediaTrait;
 
     protected $fillable = ['name'];
 
@@ -25,13 +26,5 @@ class Artist extends Model
     public function image() : \Illuminate\Database\Eloquent\Relations\MorphOne
     {
         return $this->morphOne(Media::class, 'mediable');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getImagePathAttribute()
-    {
-        return $this->image;
     }
 }

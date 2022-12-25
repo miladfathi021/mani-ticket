@@ -6,23 +6,21 @@ use App\Http\Controllers\V1\ApiController;
 use App\Http\Requests\Admin\ArtistRequest;
 use App\Http\Resources\ArtistCollection;
 use App\Http\Resources\ArtistResource;
-use App\Services\ArtistService;
+use App\Models\Artist;
+use App\Services\MediaService;
+use Illuminate\Support\Facades\DB;
 
 class ArtistController extends ApiController
 {
-    protected ArtistService $artistService;
-
-    public function __construct(ArtistService $artistService)
-    {
-        $this->artistService = $artistService;
-    }
-
     /**
+     * Get a list of artists
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index() : \Illuminate\Http\JsonResponse
     {
-        $artists = $this->artistService->getAll();
+
+        $artists = Artist::query()->latest()->get();
 
         return $this->response(
             new ArtistCollection($artists)
@@ -30,13 +28,15 @@ class ArtistController extends ApiController
     }
 
     /**
+     * Get an artist by id
+     *
      * @param $id
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id) : \Illuminate\Http\JsonResponse
     {
-        $artist = $this->artistService->getById($id);
+        $artist = Artist::query()->findOrFail($id);
 
         return $this->response(
             new ArtistResource($artist)
@@ -44,13 +44,26 @@ class ArtistController extends ApiController
     }
 
     /**
+     * Create a new artist
+     *
      * @param \App\Http\Requests\Admin\ArtistRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(ArtistRequest $request) : \Illuminate\Http\JsonResponse
     {
-        $this->artistService->create($request->all());
+        try {
+            DB::beginTransaction();
+
+            $artist = Artist::query()->create($request->all());
+            MediaService::store($artist, $request);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->responseError();
+        }
+
+        DB::commit();
 
         return $this->response(message: 'Artist created successfully!');
     }
