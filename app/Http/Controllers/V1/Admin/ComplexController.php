@@ -7,28 +7,16 @@ use App\Http\Requests\Admin\ComplexRequest;
 use App\Http\Requests\Admin\ComplexUpdateRequest;
 use App\Http\Resources\ComplexCollection;
 use App\Http\Resources\ComplexResource;
-use App\Services\ComplexService;
+use App\Models\Complex;
 
 class ComplexController extends ApiController
 {
-    protected ComplexService $complexService;
-
-    /**
-     * ComplexController constructor.
-     *
-     * @param \App\Services\ComplexService $complexService
-     */
-    public function __construct(ComplexService $complexService)
-    {
-        $this->complexService = $complexService;
-    }
-
     /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function index() : \Illuminate\Http\JsonResponse
     {
-        $complexes = $this->complexService->getAll();
+        $complexes = Complex::query()->latest()->get();
 
         return $this->response(
             new ComplexCollection($complexes)
@@ -42,7 +30,7 @@ class ComplexController extends ApiController
      */
     public function show($id) : \Illuminate\Http\JsonResponse
     {
-        $complex = $this->complexService->getById($id);
+        $complex = Complex::query()->findOrFail($id);
 
         return $this->response(
             new ComplexResource($complex)
@@ -56,20 +44,20 @@ class ComplexController extends ApiController
      */
     public function store(ComplexRequest $request) : \Illuminate\Http\JsonResponse
     {
-        $this->complexService->create($request->all());
+        auth()->user()->complexes()->create($request->all());
 
         return $this->response(message: 'Complex created successfully!');
     }
 
     /**
      * @param \App\Http\Requests\Admin\ComplexUpdateRequest $request
-     * @param                                               $id
+     * @param \App\Models\Complex                           $complex
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ComplexUpdateRequest $request, $id) : \Illuminate\Http\JsonResponse
+    public function update(ComplexUpdateRequest $request, Complex $complex) : \Illuminate\Http\JsonResponse
     {
-        $this->complexService->update($request->all(), $id);
+        $complex->update($request->all());
 
         return $this->response(message: 'Complex updated successfully!');
     }
@@ -79,9 +67,9 @@ class ComplexController extends ApiController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id) : \Illuminate\Http\JsonResponse
+    public function destroy(Complex $complex) : \Illuminate\Http\JsonResponse
     {
-        $this->complexService->delete($id);
+        $complex->delete();
 
         return $this->response(message: 'Complex deleted successfully!');
     }
