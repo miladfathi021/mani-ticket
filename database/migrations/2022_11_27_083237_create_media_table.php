@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->morphs('mediable');
             $table->string('path');
+            $table->string('type');
             $table->timestamps();
         });
     }

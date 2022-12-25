@@ -2,100 +2,110 @@
 
 namespace App\Services;
 
-use App\Exceptions\DatabaseQueryException;
+use App\Models\Complex;
 use App\Models\Event;
-use App\Repositories\EventRepository\EventRepositoryInterface;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use App\Models\Seat;
+use App\Models\Section;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class EventService
 {
-    protected EventRepositoryInterface $eventRepository;
-    private Event $event;
-
-    public function __construct(EventRepositoryInterface $eventRepository)
-    {
-       $this->eventRepository = $eventRepository;
-    }
-
     /**
-     * @param $data
+     * @param $request
      *
-     * @return array
-     * @throws \App\Exceptions\DatabaseQueryException
-     */
-    public function create($data) : array
-    {
-        try {
-            DB::beginTransaction();
-
-            $this->create_event($data);
-            $this->create_event_hall($data['halls']);
-            $this->create_event_seat($data['halls']);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::debug($e->getMessage());
-            throw new DatabaseQueryException();
-        }
-
-        DB::commit();
-        return [];
-    }
-
-    /**
-     * @param $data
-     *
-     * @return void
-     */
-    private function create_event($data)
-    {
-        $this->event = $this->eventRepository->create($data);
-    }
-
-    /**
-     * @param $data
-     *
-     * @return void
-     */
-    private function create_event_hall($data)
-    {
-        $this->eventRepository->create_event_hall($this->event, $data);
-    }
-
-    /**
-     * @param $data
-     *
-     * @return void
-     */
-    private function create_event_seat($data)
-    {
-        $this->eventRepository->create_event_seat($this->event, $data);
-    }
-
-    /**
      * @return mixed
      */
-    public function get_all() : mixed
+    public function create_event($request) : mixed
     {
-        return $this->eventRepository->get_all();
+        return Complex::query()
+            ->find($request->get('complex_id'))
+            ->events()
+            ->create([
+                "name" => $request->get('name'),
+                "artist_id" => $request->get('artist_id'),
+                "description" => $request->get('description'),
+                "date_start" => $request->get('date_start'),
+                "time_start" => $request->get('time_start'),
+                "date_end" => $request->get('date_end'),
+                "time_end" => $request->get('time_end')
+            ]);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param                          $event
+     *
+     * @return void
+     */
+    public function create_event_hall(Request $request, $event)
+    {
+        foreach ($request->get('halls') as $hall) {
+            $event->halls()->attach($event->id, $hall);
+        }
+
+    }
+
+    /**
+     * @param $request
+     * @param $event
+     *
+     * @return void
+     */
+    public function create_event_seat($request, $event)
+    {
+        foreach ($request->get('halls') as $hall) {
+            $sections = Section::where('hall_id', $hall['hall_id'])->with('seats')->get();
+            if (!$sections->count()) continue;
+
+            $event_hall_id = $event->halls()->where([
+                ['hall_id', '=', $hall['hall_id']],
+                ['date_start', '=', $hall['date_start']],
+                ['time_start', '=', $hall['time_start']],
+                ['date_end', '=', $hall['date_end']],
+                ['time_end', '=', $hall['time_end']]
+            ])->first()->pivot->id;
+
+            $sections->each(function ($section) use ($event, $event_hall_id) {
+                $seatIds = $section->seats->pluck('id');
+
+                $seatIds->each(function ($seatId) use ($event, $event_hall_id) {
+                    $event->seats()->attach($seatId, [
+                        'seat_status' => Seat::$STATUS['active'],
+                        'event_hall_id' => $event_hall_id
+                    ]);
+                });
+            });
+        }
+    }
+
+    /**
+     * @return array|\Illuminate\Database\Eloquent\Collection
+     */
+    public function get_todays_events() : array|\Illuminate\Database\Eloquent\Collection
+    {
+        return Event::query()->where('date_start', Carbon::today()->toDateString())->get();
+    }
+
+    /**
+     * @return array|\Illuminate\Database\Eloquent\Collection
+     */
+    public function get_all_active_events() : array|\Illuminate\Database\Eloquent\Collection
+    {
+        return Event::query()
+            ->whereDate('date_start', '<=', Carbon::today()->format('Y-m-d'))
+            ->whereDate('date_end', '>=', Carbon::today()->format('Y-m-d'))
+            ->with('artist')
+            ->get();
     }
 
     /**
      * @param $id
      *
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
-    public function get_by_id($id) : mixed
+    public function get_event_with_halls($id)
     {
-        return $this->eventRepository->get_by_id($id);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function get_all_active_events() : mixed
-    {
-        return $this->eventRepository->get_all_active_events();
+        return Event::query()->with('halls')->find($id);
     }
 }

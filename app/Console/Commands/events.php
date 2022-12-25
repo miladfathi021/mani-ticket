@@ -2,20 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Event;
 use App\Repositories\EventRepository\EventRepositoryInterface;
+use App\Services\EventService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Redis;
 
 class events extends Command
 {
-    protected EventRepositoryInterface $eventRepository;
-
-    public function __construct(EventRepositoryInterface $eventRepository)
-    {
-        parent::__construct();
-        $this->eventRepository = $eventRepository;
-    }
-
     /**
      * The name and signature of the console command.
      *
@@ -35,13 +29,13 @@ class events extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(EventService $eventService)
     {
-        $events = $this->eventRepository->get_todays_events();
+        $events = $eventService->get_todays_events();
 
         if ($events->count()) {
             $events->each(function ($item) {
-                $event = $this->eventRepository->get_by_id($item->event_id);
+                $event = Event::query()->find($item->event_id);
                 $seats = $event->seats()->where('event_hall_id', $item->id)->get();
 
                 Redis::set('events_' . $item->id, $seats);
