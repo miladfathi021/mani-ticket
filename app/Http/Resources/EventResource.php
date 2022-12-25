@@ -24,6 +24,7 @@ class EventResource extends JsonResource
             'artist' => new ArtistResource($this->whenLoaded('artist')),
             'complex' => new ComplexResource($this->whenLoaded('complex')),
             'halls' => new HallCollection($this->whenLoaded('halls')),
+            'image' => $this->image_path
         ];
     }
 }
