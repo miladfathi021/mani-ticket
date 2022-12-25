@@ -25,7 +25,8 @@ class ArtistRequest extends FormRequest
     {
         return [
             'name' => 'bail|required|string|min:2|max:255',
-            'image' => 'bail|nullable|file|mimes:jpeg,png,gif'
+            'media' => 'bail|nullable|file|mimes:jpeg,png,gif',
+            'media_type' => 'bail|required_with:media|string'
         ];
     }
 }

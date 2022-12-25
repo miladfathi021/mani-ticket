@@ -32,6 +32,8 @@ class EventRequest extends FormRequest
             'time_start' => 'bail|required|date_format:H:i',
             'date_end' => 'bail|required|date|after_or_equal:date_start',
             'time_end' => 'bail|required|date_format:H:i',
+            'media' => 'bail|nullable|file|mimes:jpeg,png,gif',
+            'media_type' => 'bail|required_with:media|string'
         ];
     }
 }
