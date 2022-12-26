@@ -20,5 +20,8 @@ class DevelopmentSeeder extends Seeder
             'phone' => '09215420796',
             'email' => 'miladfathi021@gmail.com'
         ]);
+        $this->call([
+            CitySeeder::class
+        ]);
     }
 }
