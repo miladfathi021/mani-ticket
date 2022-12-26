@@ -61,4 +61,15 @@ class Event extends Model
     {
         return $this->morphOne(Media::class, 'mediable');
     }
+
+    /**
+     * @param $query
+     * @param $filters
+     *
+     * @return mixed
+     */
+    public function scopeFilter($query, $filters) : mixed
+    {
+        return $filters->apply($query);
+    }
 }
