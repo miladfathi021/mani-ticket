@@ -21,6 +21,9 @@ class CreateComplexesTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('address')->nullable();
+            $table->foreignId('city_id')
+                ->constrained('cities')
+                ->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });
