@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Filters\EventFilters;
 use App\Models\Complex;
 use App\Models\Event;
 use App\Models\Seat;
@@ -88,14 +89,17 @@ class EventService
     }
 
     /**
+     * @param \App\Filters\EventFilters $filters
+     *
      * @return array|\Illuminate\Database\Eloquent\Collection
      */
-    public function get_all_active_events() : array|\Illuminate\Database\Eloquent\Collection
+    public function get_all_active_events(EventFilters $filters) : array|\Illuminate\Database\Eloquent\Collection
     {
         return Event::query()
+            ->filter($filters)
             ->whereDate('date_start', '<=', Carbon::today()->format('Y-m-d'))
             ->whereDate('date_end', '>=', Carbon::today()->format('Y-m-d'))
-            ->with('artist')
+            ->with(['artist', 'complex'])
             ->get();
     }
 
@@ -104,8 +108,8 @@ class EventService
      *
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
-    public function get_event_with_halls($id)
+    public function get_event_with_halls($id) : \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
     {
-        return Event::query()->with('halls')->find($id);
+        return Event::query()->with(['halls', 'complex', 'artist'])->find($id);
     }
 }
