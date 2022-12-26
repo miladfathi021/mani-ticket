@@ -19,6 +19,7 @@ class ComplexResource extends JsonResource
             'name' => $this->name,
             'address' => $this->address,
             'description' => $this->description,
+            'city' => new CityResource($this->city)
         ];
     }
 }
