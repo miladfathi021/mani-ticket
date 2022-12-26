@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\Event;
-use App\Repositories\EventRepository\EventRepositoryInterface;
 use App\Services\EventService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Redis;
@@ -37,7 +36,7 @@ class events extends Command
 
             $events->each(function ($event) {
                 $event->halls->each(function ($item) {
-                    $event = Event::query()->find($item->event_id);
+                    $event = Event::query()->with('seats')->find($item->pivot->event_id);
                     $seats = $event->seats()->where('event_hall_id', $item->id)->get();
 
                     Redis::set('events_' . $item->id, $seats);

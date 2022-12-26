@@ -19,7 +19,7 @@ class HallResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'complex' => new ComplexResource($this->whenLoaded('complex')),
-            'hall_event_id' => $this->whenPivotLoaded('event_hall', function() {
+            'event_hall_id' => $this->whenPivotLoaded('event_hall', function() {
                 return $this->pivot->id;
             }),
             'date_start' => $this->whenPivotLoaded('event_hall', function() {
@@ -34,8 +34,7 @@ class HallResource extends JsonResource
             'time_end' => $this->whenPivotLoaded('event_hall', function() {
                 return $this->pivot->time_end;
             }),
-            'event_hall_id' => $this->event_hall_id ?? null,
-            'sections' => $this->whenLoaded('sections')
+            'sections' => new SectoionCollection($this->whenLoaded('sections'))
         ];
     }
 }
