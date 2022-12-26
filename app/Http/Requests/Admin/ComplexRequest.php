@@ -27,6 +27,7 @@ class ComplexRequest extends FormRequest
             'name' => 'bail|required|string|min:3|max:255',
             'description' => 'bail|sometimes|nullable|string|min:3',
             'address' => 'bail|sometimes|nullable|string|min:6',
+            'city_id' => 'bail|required|exists:cities,id'
         ];
     }
 }
