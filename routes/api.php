@@ -27,4 +27,5 @@ Route::group(['prefix' => '/v1'], function () {
     require('User/event.php');
     require('User/hall.php');
     require('User/seat.php');
+    require('User/city.php');
 });
