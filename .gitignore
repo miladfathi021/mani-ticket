@@ -16,3 +16,7 @@ yarn-error.log
 /.vscode
 .DS_Store
 /docker/mysql/*
+/docker/8.0
+/docker/7.4
+/docker/8.2
+/docker/8.1/mysql/*
