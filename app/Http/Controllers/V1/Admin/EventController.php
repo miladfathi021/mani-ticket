@@ -57,10 +57,10 @@ class EventController extends ApiController
         try {
             DB::beginTransaction();
 
-            $event = $eventService->create_event($request);
+            $event = $eventService->createEvent($request);
             MediaService::store($event, $request);
-            $eventService->create_event_hall($request, $event);
-            $eventService->create_event_seat($request, $event);
+            $eventService->createEventHall($request, $event);
+            $eventService->createEventSeat($request, $event);
 
         } catch (\Exception $e) {
             DB::rollBack();

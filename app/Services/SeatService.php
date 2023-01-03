@@ -19,7 +19,7 @@ class SeatService
         }
     }
 
-    public function get_seats_by_section_id($id)
+    public function getSeatsBySectionId($id)
     {
 //        return $this->seatRepository->get_seats_by_section_id($id);
     }

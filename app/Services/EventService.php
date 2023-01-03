@@ -17,7 +17,7 @@ class EventService
      *
      * @return mixed
      */
-    public function create_event($request) : mixed
+    public function createEvent($request) : mixed
     {
         return Complex::query()
             ->find($request->get('complex_id'))
@@ -39,7 +39,7 @@ class EventService
      *
      * @return void
      */
-    public function create_event_hall(Request $request, $event)
+    public function createEventHall(Request $request, $event)
     {
         foreach ($request->get('halls') as $hall) {
             $event->halls()->attach($event->id, $hall);
@@ -53,7 +53,7 @@ class EventService
      *
      * @return void
      */
-    public function create_event_seat($request, $event)
+    public function createEventSeat($request, $event)
     {
         foreach ($request->get('halls') as $hall) {
             $sections = Section::where('hall_id', $hall['hall_id'])->with('seats')->get();
@@ -83,7 +83,7 @@ class EventService
     /**
      * @return array|\Illuminate\Database\Eloquent\Collection
      */
-    public function get_todays_events() : array|\Illuminate\Database\Eloquent\Collection
+    public function getTodaysEvents() : array|\Illuminate\Database\Eloquent\Collection
     {
         return Event::query()->where('date_start', Carbon::today()->toDateString())->get();
     }
@@ -93,7 +93,7 @@ class EventService
      *
      * @return array|\Illuminate\Database\Eloquent\Collection
      */
-    public function get_all_active_events(EventFilters $filters) : array|\Illuminate\Database\Eloquent\Collection
+    public function getAllActiveEvents(EventFilters $filters) : array|\Illuminate\Database\Eloquent\Collection
     {
         return Event::query()
             ->filter($filters)
@@ -108,7 +108,7 @@ class EventService
      *
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
-    public function get_event_with_halls($id) : \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
+    public function getEventWithHalls($id) : \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
     {
         return Event::query()->with(['halls', 'complex', 'artist'])->find($id);
     }

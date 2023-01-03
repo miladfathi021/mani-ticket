@@ -30,7 +30,7 @@ class events extends Command
      */
     public function handle(EventService $eventService)
     {
-        $events = $eventService->get_todays_events();
+        $events = $eventService->getTodaysEvents();
 
         if ($events->count()) {
 
